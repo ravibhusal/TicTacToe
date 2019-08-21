@@ -7,6 +7,6 @@
   display: grid;
   grid-template: repeat(3, 1fr) / repeat(3, 1fr);
   grid-gap: 10px;
-  background-color: #fff;
+  background-color: #000;
   border: 2px solid #34495e;
 }

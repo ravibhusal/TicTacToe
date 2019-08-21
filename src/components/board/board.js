@@ -18,158 +18,73 @@ class Board extends React.Component {
 
   rowCrossed() {
     for (var i = 0; i < 3; i++) {
+      //if (!this.state.board[i]) this.state.board[i] = [];
       if (
         this.state.board[i][0] === this.state.board[i][1] &&
         this.state.board[i][1] === this.state.board[i][2] &&
         this.state.board[i][0] !== ""
       ) {
+        console.log(this.state.board[i][0]);
+        console.log("Rows Crossed");
+      } else {
+        console.log("Not crossed");
       }
     }
   }
 
   columnCrossed() {
     for (var i = 0; i < 3; i++) {
+      if (!this.state.board[0]) this.state.board[0] = [];
+      if (!this.state.board[1]) this.state.board[1] = [];
+      if (!this.state.board[2]) this.state.board[2] = [];
       if (
         this.state.board[0][i] === this.state.board[1][i] &&
         this.state.board[1][i] === this.state.board[2][i] &&
         this.state.board[0][i] !== ""
       ) {
+        console.log("Column Crossed");
+      } else {
+        console.log("Not crossed");
       }
     }
   }
 
   diagonalCrossed() {
+    if (!this.state.board[0]) this.state.board[0] = [];
+    if (!this.state.board[1]) this.state.board[1] = [];
+    if (!this.state.board[2]) this.state.board[2] = [];
     if (
       (this.state.board[0][0] === this.state.board[1][1] &&
         this.state.board[2][2]) ||
       (this.state.board[0][2] === this.state.board[1][1] &&
         this.state.board[0][2] === this.state.board[2][0])
     ) {
+      console.log("Diagonals Crossed");
+    } else {
+      console.log("Not crossed");
     }
   }
 
-  columnCrossed() {}
-
-  diagonalCrossed() {}
-
-  /*  componentDidUpdate() {
-    if (
-      this.state.first === this.state.second &&
-      this.state.first === this.state.third &&
-      this.state.first !== ""
-    ) {
-      if (this.state.gameOver !== true) {
-        this.setState({ gameOver: true });
-      }
-      document.getElementById("first").style.backgroundColor = "#00FA9A";
-      document.getElementById("second").style.backgroundColor = "#00FA9A";
-      document.getElementById("third").style.backgroundColor = "#00FA9A";
-    } else if (
-      this.state.first === this.state.fifth &&
-      this.state.first === this.state.ninth &&
-      this.state.first !== ""
-    ) {
-      if (this.state.gameOver !== true) {
-        this.setState({ gameOver: true });
-      }
-      document.getElementById("first").style.backgroundColor = "#00FA9A";
-      document.getElementById("fifth").style.backgroundColor = "#00FA9A";
-      document.getElementById("ninth").style.backgroundColor = "#00FA9A";
-    } else if (
-      this.state.first === this.state.fourth &&
-      this.state.first === this.state.seventh &&
-      this.state.first !== ""
-    ) {
-      if (this.state.gameOver !== true) {
-        this.setState({ gameOver: true });
-      }
-      document.getElementById("first").style.backgroundColor = "#00FA9A";
-      document.getElementById("fourth").style.backgroundColor = "#00FA9A";
-      document.getElementById("seventh").style.backgroundColor = "#00FA9A";
-    } else if (
-      this.state.fourth === this.state.fifth &&
-      this.state.fourth === this.state.sixth &&
-      this.state.fourth !== ""
-    ) {
-      if (this.state.gameOver !== true) {
-        this.setState({ gameOver: true });
-      }
-      document.getElementById("fourth").style.backgroundColor = "#00FA9A";
-      document.getElementById("fifth").style.backgroundColor = "#00FA9A";
-      document.getElementById("sixth").style.backgroundColor = "#00FA9A";
-    } else if (
-      this.state.seventh === this.state.eighth &&
-      this.state.seventh === this.state.ninth &&
-      this.state.seventh !== ""
-    ) {
-      if (this.state.gameOver !== true) {
-        this.setState({ gameOver: true });
-      }
-      document.getElementById("seventh").style.backgroundColor = "#00FA9A";
-      document.getElementById("eighth").style.backgroundColor = "#00FA9A";
-      document.getElementById("ninth").style.backgroundColor = "#00FA9A";
-    } else if (
-      this.state.second === this.state.fifth &&
-      this.state.second === this.state.eighth &&
-      this.state.second !== ""
-    ) {
-      if (this.state.gameOver !== true) {
-        this.setState({ gameOver: true });
-      }
-      document.getElementById("fifth").style.backgroundColor = "#00FA9A";
-      document.getElementById("second").style.backgroundColor = "#00FA9A";
-      document.getElementById("eighth").style.backgroundColor = "#00FA9A";
-    } else if (
-      this.state.third === this.state.sixth &&
-      this.state.third === this.state.ninth &&
-      this.state.third !== ""
-    ) {
-      if (this.state.gameOver !== true) {
-        this.setState({ gameOver: true });
-      }
-      document.getElementById("third").style.backgroundColor = "#00FA9A";
-      document.getElementById("sixth").style.backgroundColor = "#00FA9A";
-      document.getElementById("ninth").style.backgroundColor = "#00FA9A";
-    } else if (
-      this.state.third === this.state.fifth &&
-      this.state.third === this.state.seventh &&
-      this.state.third !== ""
-    ) {
-      if (this.state.gameOver !== true) {
-        this.setState({ gameOver: true });
-      }
-      document.getElementById("third").style.backgroundColor = "#00FA9A";
-      document.getElementById("fifth").style.backgroundColor = "#00FA9A";
-      document.getElementById("seventh").style.backgroundColor = "#00FA9A";
-    } else if (
-      this.state.first !== "" &&
-      this.state.second !== "" &&
-      this.state.third !== "" &&
-      this.state.fourth !== "" &&
-      this.state.fifth !== "" &&
-      this.state.sixth !== "" &&
-      this.state.seventh !== "" &&
-      this.state.eighth !== "" &&
-      this.state.ninth !== ""
-    ) {
-      if (this.state.gameOver !== true) {
-        this.setState({ gameOver: true });
-      }
-    }
-  } */
+  componentDidUpdate() {
+    /*   this.rowCrossed();
+    this.columnCrossed();
+    this.diagonalCrossed(); */
+  }
 
   componentDidMount() {
     this.setState({ currentPlayer: this.state.player1 });
   }
 
   handleClick = (xPosition, yPosition, value) => {
-    console.log(xPosition);
     let arr = this.state.board.slice();
-    console.log(arr);
     if (this.state.gameOver !== true) {
       if (this.state.currentPlayer === this.state.player1) {
         if (!arr[xPosition]) arr[xPosition] = [];
         arr[xPosition][yPosition] = this.state.player1;
+        console.log(
+          this.state.currentPlayer + " moved to " + xPosition,
+          yPosition + " in the board"
+        );
         this.setState({
           board: arr,
           currentPlayer: this.state.player2
@@ -177,6 +92,10 @@ class Board extends React.Component {
       } else {
         if (!arr[xPosition]) arr[xPosition] = [];
         arr[xPosition][yPosition] = this.state.player2;
+        console.log(
+          this.state.currentPlayer + " moved to " + xPosition,
+          yPosition + " in the board"
+        );
         this.setState({
           board: arr,
           currentPlayer: this.state.player1
@@ -189,60 +108,64 @@ class Board extends React.Component {
     window.location.reload();
   };
   render() {
+    for (var i = 0; i < 3; i++) {
+      if (!this.state.board[i]) this.state.board[i] = [];
+    }
     return (
       <div>
         <div className="game-board">
           <Square
             xPosition="0"
             yPosition="0"
+            value={this.state.board[0][0]}
             onClick={this.handleClick.bind(this)}
           />
           <Square
             xPosition="0"
             yPosition="1"
-            //  value={this.state.board[0][1]}
+            value={this.state.board[0][1]}
             onClick={this.handleClick.bind(this)}
           />
           <Square
             xPosition="0"
             yPosition="2"
-            //  value={this.state.board[0][2]}
+            value={this.state.board[0][2]}
             onClick={this.handleClick.bind(this)}
           />
           <Square
             xPosition="1"
             yPosition="0"
-            //  value={this.state.currentPlayer}
+            value={this.state.board[1][0]}
             onClick={this.handleClick.bind(this)}
           />
           <Square
             xPosition="1"
             yPosition="1"
-            value={this.state.currentPlayer}
+            value={this.state.board[1][1]}
             onClick={this.handleClick.bind(this)}
           />
           <Square
             xPosition="1"
             yPosition="2"
-            value={this.state.currentPlayer}
+            value={this.state.board[1][2]}
             onClick={this.handleClick.bind(this)}
           />
           <Square
             xPosition="2"
             yPosition="0"
-            value={this.state.currentPlayer}
+            value={this.state.board[2][0]}
             onClick={this.handleClick.bind(this)}
           />
           <Square
             xPosition="2"
             yPosition="1"
-            value={this.state.currentPlayer}
+            value={this.state.board[2][1]}
             onClick={this.handleClick.bind(this)}
           />
           <Square
             xPosition="2"
             yPosition="2"
-            value={this.state.currentPlayer}
+            value={this.state.board[2][2]}
             onClick={this.handleClick.bind(this)}
           />
         </div>
