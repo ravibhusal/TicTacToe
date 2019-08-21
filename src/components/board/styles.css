@@ -1,0 +1,18 @@
+.game-board {
+  min-height: 0;
+  min-width: 0;
+  width: 350px;
+  height: 350px;
+  margin: 0 auto;
+  display: grid;
+  grid-template: repeat(3, 1fr) / repeat(3, 1fr);
+  grid-gap: 10px;
+  background-color: #000;
+  border: 2px solid #34495e;
+}
+
+.game-board > div {
+  text-align: center;
+  padding: 30px 0;
+  font-size: 30px;
+}
