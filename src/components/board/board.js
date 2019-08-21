@@ -1,26 +1,58 @@
 import React from "react";
 import "./styles.css";
+import Square from "../square/square";
 
 class Board extends React.Component {
   state = {
-    first: "",
-    second: "",
-    third: "",
-    fourth: "",
-    fifth: "",
-    sixth: "",
-    seventh: "",
-    eighth: "",
-    ninth: "",
     player1: "X",
     player2: "O",
     currentPlayer: null,
-
     backgroundColor: "#fff",
-    gameOver: false
+    gameOver: false,
+    gameWon: false,
+    gameTied: false,
+    player1Move: "",
+    player2Move: "",
+    board: []
   };
 
-  componentDidUpdate() {
+  rowCrossed() {
+    for (var i = 0; i < 3; i++) {
+      if (
+        this.state.board[i][0] === this.state.board[i][1] &&
+        this.state.board[i][1] === this.state.board[i][2] &&
+        this.state.board[i][0] !== ""
+      ) {
+      }
+    }
+  }
+
+  columnCrossed() {
+    for (var i = 0; i < 3; i++) {
+      if (
+        this.state.board[0][i] === this.state.board[1][i] &&
+        this.state.board[1][i] === this.state.board[2][i] &&
+        this.state.board[0][i] !== ""
+      ) {
+      }
+    }
+  }
+
+  diagonalCrossed() {
+    if (
+      (this.state.board[0][0] === this.state.board[1][1] &&
+        this.state.board[2][2]) ||
+      (this.state.board[0][2] === this.state.board[1][1] &&
+        this.state.board[0][2] === this.state.board[2][0])
+    ) {
+    }
+  }
+
+  columnCrossed() {}
+
+  diagonalCrossed() {}
+
+  /*  componentDidUpdate() {
     if (
       this.state.first === this.state.second &&
       this.state.first === this.state.third &&
@@ -124,22 +156,29 @@ class Board extends React.Component {
         this.setState({ gameOver: true });
       }
     }
-  }
+  } */
 
   componentDidMount() {
     this.setState({ currentPlayer: this.state.player1 });
   }
 
-  handleClick = event => {
+  handleClick = (xPosition, yPosition, value) => {
+    console.log(xPosition);
+    let arr = this.state.board.slice();
+    console.log(arr);
     if (this.state.gameOver !== true) {
       if (this.state.currentPlayer === this.state.player1) {
+        if (!arr[xPosition]) arr[xPosition] = [];
+        arr[xPosition][yPosition] = this.state.player1;
         this.setState({
-          [event.target.id]: this.state.player1,
+          board: arr,
           currentPlayer: this.state.player2
         });
       } else {
+        if (!arr[xPosition]) arr[xPosition] = [];
+        arr[xPosition][yPosition] = this.state.player2;
         this.setState({
-          [event.target.id]: this.state.player2,
+          board: arr,
           currentPlayer: this.state.player1
         });
       }
@@ -153,78 +192,59 @@ class Board extends React.Component {
     return (
       <div>
         <div className="game-board">
-          <div
-            className="box"
-            id="first"
-            style={{ backgroundColor: this.state.backgroundColor }}
-            onClick={this.handleClick}
-          >
-            {this.state.first}
-          </div>
-          <div
-            className="box"
-            id="second"
-            style={{ backgroundColor: this.state.backgroundColor }}
-            onClick={this.handleClick}
-          >
-            {this.state.second}
-          </div>
-          <div
-            className="box"
-            id="third"
-            style={{ backgroundColor: this.state.backgroundColor }}
-            onClick={this.handleClick}
-          >
-            {this.state.third}
-          </div>
-          <div
-            className="box"
-            id="fourth"
-            style={{ backgroundColor: this.state.backgroundColor }}
-            onClick={this.handleClick}
-          >
-            {this.state.fourth}
-          </div>
-          <div
-            className="box"
-            id="fifth"
-            style={{ backgroundColor: this.state.backgroundColor }}
-            onClick={this.handleClick}
-          >
-            {this.state.fifth}
-          </div>
-          <div
-            className="box"
-            id="sixth"
-            style={{ backgroundColor: this.state.backgroundColor }}
-            onClick={this.handleClick}
-          >
-            {this.state.sixth}
-          </div>
-          <div
-            className="box"
-            id="seventh"
-            style={{ backgroundColor: this.state.backgroundColor }}
-            onClick={this.handleClick}
-          >
-            {this.state.seventh}
-          </div>
-          <div
-            className="box"
-            id="eighth"
-            style={{ backgroundColor: this.state.backgroundColor }}
-            onClick={this.handleClick}
-          >
-            {this.state.eighth}
-          </div>
-          <div
-            className="box"
-            id="ninth"
-            style={{ backgroundColor: this.state.backgroundColor }}
-            onClick={this.handleClick}
-          >
-            {this.state.ninth}
-          </div>
+          <Square
+            xPosition="0"
+            yPosition="0"
+            onClick={this.handleClick.bind(this)}
+          />
+          <Square
+            xPosition="0"
+            yPosition="1"
+            //  value={this.state.board[0][1]}
+            onClick={this.handleClick.bind(this)}
+          />
+          <Square
+            xPosition="0"
+            yPosition="2"
+            //  value={this.state.board[0][2]}
+            onClick={this.handleClick.bind(this)}
+          />
+          <Square
+            xPosition="1"
+            yPosition="0"
+            //  value={this.state.currentPlayer}
+            onClick={this.handleClick.bind(this)}
+          />
+          <Square
+            xPosition="1"
+            yPosition="1"
+            value={this.state.currentPlayer}
+            onClick={this.handleClick.bind(this)}
+          />
+          <Square
+            xPosition="1"
+            yPosition="2"
+            value={this.state.currentPlayer}
+            onClick={this.handleClick.bind(this)}
+          />
+          <Square
+            xPosition="2"
+            yPosition="0"
+            value={this.state.currentPlayer}
+            onClick={this.handleClick.bind(this)}
+          />
+          <Square
+            xPosition="2"
+            yPosition="1"
+            value={this.state.currentPlayer}
+            onClick={this.handleClick.bind(this)}
+          />
+          <Square
+            xPosition="2"
+            yPosition="2"
+            value={this.state.currentPlayer}
+            onClick={this.handleClick.bind(this)}
+          />
         </div>
 
         {!this.state.gameOver ? (
