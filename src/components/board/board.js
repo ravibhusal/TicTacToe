@@ -117,6 +117,10 @@ class Board extends React.Component {
     var arr2 = this.state.winnerSquare2.slice();
     var arr3 = this.state.winnerSquare3.slice();
 
+    var arr4 = this.state.winnerSquare1.slice();
+    var arr5 = this.state.winnerSquare2.slice();
+    var arr6 = this.state.winnerSquare3.slice();
+
     if (
       this.state.board[0][0] === this.state.board[1][1] &&
       this.state.board[0][0] === this.state.board[2][2] &&
@@ -145,11 +149,20 @@ class Board extends React.Component {
       this.state.board[0][2] !== "" &&
       this.state.board[0][2] !== undefined
     ) {
+      arr4[0][0] = "0";
+      arr4[0][1] = "2";
+      arr5[0][0] = "1";
+      arr5[0][1] = "1";
+      arr6[0][0] = "2";
+      arr6[0][1] = "0";
       if (this.state.gameOver !== true) {
         this.setState({
           gameOver: true,
           gameWon: true,
-          winner: _currentPlayer
+          winner: _currentPlayer,
+          winnerSquare1: arr4,
+          winnerSquare2: arr5,
+          winnerSquare3: arr6
         });
       }
     } else {
