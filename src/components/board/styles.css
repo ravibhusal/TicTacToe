@@ -1,12 +1,12 @@
 .game-board {
-  min-height: 0;
-  min-width: 0;
-  width: 350px;
-  height: 350px;
+  min-height: 800;
+  min-width: 800;
+  width: 800px;
+  height: 800px;
   margin: 0 auto;
   display: grid;
-  grid-template: repeat(3, 1fr) / repeat(3, 1fr);
   grid-gap: 10px;
   background-color: #000;
   border: 2px solid #34495e;
+  position: relative;
 }

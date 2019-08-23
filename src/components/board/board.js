@@ -13,12 +13,10 @@ class Board extends React.Component {
     gameWon: false,
     gameTied: false,
     moveText: "",
-    emptyCell: 9,
-    winnerSquare1: [[""], [""]],
-    winnerSquare2: [[""], [""]],
-    winnerSquare3: [[""], [""]],
+    emptyCell: null,
 
     board: [
+      ["", ""],
       ["", ""],
       ["", ""],
       ["", ""],
@@ -34,138 +32,164 @@ class Board extends React.Component {
   componentDidUpdate() {
     this.rowCrossed(this.state.currentPlayer);
     this.columnCrossed(this.state.currentPlayer);
-    this.diagonalCrossed(this.state.currentPlayer);
+    this.leftToRightDiagonalCrossed(this.state.currentPlayer);
+    this.rightToLeftDiagnonalCrossed(this.state.currentPlayer);
+
     this.gameTied();
   }
 
+  componentWillMount() {
+    let arr = this.state.board.slice();
+
+    while (arr.length < this.props.gridSize) {
+      arr.push(["", ""]);
+    }
+
+    this.setState({
+      board: arr
+    });
+  }
   componentDidMount() {
-    this.setState({ currentPlayer: this.state.player1 });
+    this.setState({
+      currentPlayer: this.state.player1,
+      emptyCell: Math.pow(this.props.gridSize, 2)
+    });
   }
 
   rowCrossed(currentPlayer) {
     var _currentPlayer = currentPlayer;
-    var arr1 = this.state.winnerSquare1.slice();
-    var arr2 = this.state.winnerSquare2.slice();
-    var arr3 = this.state.winnerSquare3.slice();
+    var numberOfSameCells = 1;
 
-    for (var i = 0; i < 3; i++) {
-      if (
-        this.state.board[i][0] === this.state.board[i][1] &&
-        this.state.board[i][1] === this.state.board[i][2] &&
-        this.state.board[i][0] !== "" &&
-        this.state.board[0][i] !== undefined
-      ) {
-        arr1[0][0] = i.toString();
-        arr1[0][1] = "0";
-        arr2[0][0] = i.toString();
-        arr2[0][1] = "1";
-        arr3[0][0] = i.toString();
-        arr3[0][1] = "2";
-        if (this.state.gameOver !== true) {
-          this.setState({
-            gameOver: true,
-            gameWon: true,
-            winner: _currentPlayer,
-            winnerSquare1: arr1,
-            winnerSquare2: arr2,
-            winnerSquare3: arr3
-          });
+    for (var i = 0; i < this.props.gridSize; i++) {
+      for (var j = 0; j < this.props.gridSize; j++) {
+        if (
+          this.state.board[i][j] === this.state.board[i][j + 1] &&
+          this.state.board[i][j] !== "" &&
+          this.state.board[i][j] !== undefined
+        ) {
+          numberOfSameCells++;
+          if (numberOfSameCells === this.props.gridSize) {
+            if (this.state.gameOver !== true) {
+              this.setState({
+                gameOver: true,
+                gameWon: true,
+                winner: _currentPlayer
+              });
+            }
+            break;
+          } else {
+            continue;
+          }
+        } else {
+          numberOfSameCells = 1;
+          break;
         }
-      } else {
       }
     }
   }
 
   columnCrossed(currentPlayer) {
     var _currentPlayer = currentPlayer;
+    var numberOfSameCells = 1;
 
-    var arr1 = this.state.winnerSquare1.slice();
-    var arr2 = this.state.winnerSquare2.slice();
-    var arr3 = this.state.winnerSquare3.slice();
-
-    for (var i = 0; i < 3; i++) {
-      if (
-        this.state.board[0][i] === this.state.board[1][i] &&
-        this.state.board[1][i] === this.state.board[2][i] &&
-        this.state.board[0][i] !== "" &&
-        this.state.board[0][i] !== undefined
-      ) {
-        arr1[0][0] = "0";
-        arr1[0][1] = i.toString();
-        arr2[0][0] = "1";
-        arr2[0][1] = i.toString();
-        arr3[0][0] = "2";
-        arr3[0][1] = i.toString();
-        if (this.state.gameOver !== true) {
-          this.setState({
-            gameOver: true,
-            gameWon: true,
-            winner: _currentPlayer,
-            winnerSquare1: arr1,
-            winnerSquare2: arr2,
-            winnerSquare3: arr3
-          });
+    for (var i = 0; i < this.props.gridSize; i++) {
+      for (var j = 0; j < this.props.gridSize; j++) {
+        if (
+          this.state.board[j][i] === this.state.board[j + 1][i] &&
+          j + 1 !== this.props.gridSize &&
+          this.state.board[j][i] !== "" &&
+          this.state.board[j][i] !== undefined
+        ) {
+          numberOfSameCells++;
+          if (numberOfSameCells === this.props.gridSize) {
+            if (this.state.gameOver !== true) {
+              this.setState({
+                gameOver: true,
+                gameWon: true,
+                winner: _currentPlayer
+              });
+            }
+            break;
+          } else {
+            continue;
+          }
+        } else {
+          numberOfSameCells = 1;
+          break;
         }
-      } else {
       }
     }
   }
 
-  diagonalCrossed(currentPlayer) {
+  leftToRightDiagonalCrossed(currentPlayer) {
     var _currentPlayer = currentPlayer;
-    var arr1 = this.state.winnerSquare1.slice();
-    var arr2 = this.state.winnerSquare2.slice();
-    var arr3 = this.state.winnerSquare3.slice();
-
-    var arr4 = this.state.winnerSquare1.slice();
-    var arr5 = this.state.winnerSquare2.slice();
-    var arr6 = this.state.winnerSquare3.slice();
-
-    if (
-      this.state.board[0][0] === this.state.board[1][1] &&
-      this.state.board[0][0] === this.state.board[2][2] &&
-      this.state.board[0][0] !== "" &&
-      this.state.board[0][0] !== undefined
-    ) {
-      arr1[0][0] = "0";
-      arr1[0][1] = "0";
-      arr2[0][0] = "1";
-      arr2[0][1] = "1";
-      arr3[0][0] = "2";
-      arr3[0][1] = "2";
-      if (this.state.gameOver !== true) {
-        this.setState({
-          gameOver: true,
-          gameWon: true,
-          winner: _currentPlayer,
-          winnerSquare1: arr1,
-          winnerSquare2: arr2,
-          winnerSquare3: arr3
-        });
+    var numberOfSameCells = 1;
+    for (var i = 0; i < this.props.gridSize; i++) {
+      for (var j = 0; j < this.props.gridSize; j++) {
+        if (i === j) {
+          if (i + 1 !== this.props.gridSize && j + 1 !== this.props.gridSize) {
+            if (
+              this.state.board[i][j] === this.state.board[i + 1][j + 1] &&
+              this.state.board[i][j] !== "" &&
+              this.state.board[i][j] !== undefined
+            ) {
+              numberOfSameCells++;
+              console.log(numberOfSameCells);
+              if (numberOfSameCells === this.props.gridSize) {
+                if (this.state.gameOver !== true) {
+                  this.setState({
+                    gameOver: true,
+                    gameWon: true,
+                    winner: _currentPlayer
+                  });
+                }
+                break;
+              } else {
+                break;
+              }
+            } else {
+              break;
+            }
+          }
+        } else {
+        }
       }
-    } else if (
-      this.state.board[0][2] === this.state.board[1][1] &&
-      this.state.board[1][1] === this.state.board[2][0] &&
-      this.state.board[0][2] !== "" &&
-      this.state.board[0][2] !== undefined
-    ) {
-      arr4[0][0] = "0";
-      arr4[0][1] = "2";
-      arr5[0][0] = "1";
-      arr5[0][1] = "1";
-      arr6[0][0] = "2";
-      arr6[0][1] = "0";
-      if (this.state.gameOver !== true) {
-        this.setState({
-          gameOver: true,
-          gameWon: true,
-          winner: _currentPlayer,
-          winnerSquare1: arr4,
-          winnerSquare2: arr5,
-          winnerSquare3: arr6
-        });
+    }
+  }
+  rightToLeftDiagnonalCrossed(currentPlayer) {
+    let _currentPlayer = currentPlayer;
+    var numberOfSameCells = 1;
+    for (var i = 0; i < this.props.gridSize; i++) {
+      for (var j = this.props.gridSize - 1; j >= 0; j--) {
+        console.log(i + 1, j - 1);
+        if (i + j === this.props.gridSize - 1) {
+          if (i + 1 < this.props.gridSize && j - 1 >= 0) {
+            if (
+              i + 1 !== this.props.gridSize &&
+              this.state.board[i][j] === this.state.board[i + 1][j - 1] &&
+              this.state.board[i][j] !== "" &&
+              this.state.board[i][j] !== undefined
+            ) {
+              numberOfSameCells++;
+              if (numberOfSameCells === this.props.gridSize) {
+                if (this.state.gameOver !== true) {
+                  this.setState({
+                    gameOver: true,
+                    gameWon: true,
+                    winner: _currentPlayer
+                  });
+                }
+                break;
+              } else {
+                break;
+              }
+            } else {
+              break;
+            }
+          }
+        } else {
+        }
       }
-    } else {
     }
   }
 
@@ -268,90 +292,33 @@ class Board extends React.Component {
     }
   }
   render() {
+    const squares = [];
+    for (var i = 0; i < this.props.gridSize; i++) {
+      for (var j = 0; j < this.props.gridSize; j++) {
+        squares.push(
+          <Square
+            xPosition={i}
+            yPosition={j}
+            value={this.state.board[i][j]}
+            onClick={this.handleClick}
+          />
+        );
+      }
+    }
     return (
       <div>
-        <div className="game-board">
-          <Square
-            xPosition="0"
-            yPosition="0"
-            value={this.state.board[0][0]}
-            onClick={this.handleClick.bind(this)}
-            winnerSquare1={this.state.winnerSquare1}
-            winnerSquare2={this.state.winnerSquare2}
-            winnerSquare3={this.state.winnerSquare3}
-          />
-          <Square
-            xPosition="0"
-            yPosition="1"
-            value={this.state.board[0][1]}
-            onClick={this.handleClick.bind(this)}
-            winnerSquare1={this.state.winnerSquare1}
-            winnerSquare2={this.state.winnerSquare2}
-            winnerSquare3={this.state.winnerSquare3}
-          />
-          <Square
-            xPosition="0"
-            yPosition="2"
-            value={this.state.board[0][2]}
-            onClick={this.handleClick.bind(this)}
-            winnerSquare1={this.state.winnerSquare1}
-            winnerSquare2={this.state.winnerSquare2}
-            winnerSquare3={this.state.winnerSquare3}
-          />
-          <Square
-            xPosition="1"
-            yPosition="0"
-            value={this.state.board[1][0]}
-            onClick={this.handleClick.bind(this)}
-            winnerSquare1={this.state.winnerSquare1}
-            winnerSquare2={this.state.winnerSquare2}
-            winnerSquare3={this.state.winnerSquare3}
-          />
-          <Square
-            xPosition="1"
-            yPosition="1"
-            value={this.state.board[1][1]}
-            onClick={this.handleClick.bind(this)}
-            winnerSquare1={this.state.winnerSquare1}
-            winnerSquare2={this.state.winnerSquare2}
-            winnerSquare3={this.state.winnerSquare3}
-          />
-          <Square
-            xPosition="1"
-            yPosition="2"
-            value={this.state.board[1][2]}
-            onClick={this.handleClick.bind(this)}
-            winnerSquare1={this.state.winnerSquare1}
-            winnerSquare2={this.state.winnerSquare2}
-            winnerSquare3={this.state.winnerSquare3}
-          />
-          <Square
-            xPosition="2"
-            yPosition="0"
-            value={this.state.board[2][0]}
-            onClick={this.handleClick.bind(this)}
-            winnerSquare1={this.state.winnerSquare1}
-            winnerSquare2={this.state.winnerSquare2}
-            winnerSquare3={this.state.winnerSquare3}
-          />
-          <Square
-            xPosition="2"
-            yPosition="1"
-            value={this.state.board[2][1]}
-            onClick={this.handleClick.bind(this)}
-            winnerSquare1={this.state.winnerSquare1}
-            winnerSquare2={this.state.winnerSquare2}
-            winnerSquare3={this.state.winnerSquare3}
-          />
-          <Square
-            xPosition="2"
-            yPosition="2"
-            value={this.state.board[2][2]}
-            onClick={this.handleClick.bind(this)}
-            winnerSquare1={this.state.winnerSquare1}
-            winnerSquare2={this.state.winnerSquare2}
-            winnerSquare3={this.state.winnerSquare3}
-          />
+        <div
+          className="game-board"
+          style={{
+            gridTemplate:
+              "repeat(" +
+              this.props.gridSize +
+              ", 1fr) / repeat(" +
+              this.props.gridSize +
+              ", 1fr)"
+          }}
+        >
+          {squares}
         </div>
 
         {this.renderLog()}

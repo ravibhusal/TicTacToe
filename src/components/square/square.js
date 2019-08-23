@@ -10,13 +10,8 @@ class Square extends React.Component {
     backgroundColor: "#fff"
   };
 
-  constructor(props) {
-    super(props);
-    this.handleClick = this.handleClick.bind(this);
-  }
-
   componentWillReceiveProps(newProps) {
-    if (
+    /*  if (
       this.props.xPosition === newProps.winnerSquare1[0][0] &&
       this.props.yPosition === newProps.winnerSquare1[0][1]
     ) {
@@ -34,7 +29,7 @@ class Square extends React.Component {
     ) {
       this.setState({ backgroundColor: "#32CD32" });
     } else {
-    }
+    } */
   }
 
   handleColorChange(x, y) {}
@@ -55,9 +50,9 @@ class Square extends React.Component {
         className="box"
         id="box"
         style={{ backgroundColor: this.state.backgroundColor }}
-        onClick={this.handleClick.bind(this)}
+        onClick={this.handleClick}
       >
-        {this.props.value}
+        <text>{this.props.value}</text>
       </div>
     );
   }
